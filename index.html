@@ -919,7 +919,7 @@
 
       <div class="contact-form-wrap">
         <div class="form-title">📋 Randevu Formu</div>
-        <form id="contactForm" action="https://formspree.io/f/hakanerbasss@gmail.com" method="POST">
+        <form id="contactForm">
           <div class="form-group">
             <label>Adınız Soyadınız</label>
             <input type="text" name="name" placeholder="Ahmet Yılmaz" required>
@@ -949,7 +949,7 @@
             <textarea name="message" placeholder="Sorununuzu kısaca anlatın, hangi ilçede olduğunuzu belirtin..."></textarea>
           </div>
           <button type="button" class="form-submit" onclick="submitForm()">Randevu İste →</button>
-          <p class="form-note">Formspree ücretsiz plana geçiş yapana kadar WhatsApp daha hızlıdır.</p>
+          <p class="form-note" id="formNote">Form doldurulduğunda hem e-posta gönderilir hem WhatsApp açılır.</p>
         </form>
       </div>
     </div>
@@ -980,23 +980,42 @@
 <div id="toast">✅ Mesajınız alındı! En kısa sürede dönüş yapacağım.</div>
 
 <script>
-function submitForm() {
+async function submitForm() {
   const form = document.getElementById('contactForm');
-  const name = form.querySelector('[name="name"]').value;
-  const phone = form.querySelector('[name="phone"]').value;
+  const name = form.querySelector('[name="name"]').value.trim();
+  const phone = form.querySelector('[name="phone"]').value.trim();
   const service = form.querySelector('[name="service"]').value;
-  const message = form.querySelector('[name="message"]').value;
+  const message = form.querySelector('[name="message"]').value.trim();
+  const note = document.getElementById('formNote');
+  const btn = form.querySelector('.form-submit');
 
   if (!name || !phone || !service) {
     alert('Lütfen adınızı, telefonunuzu ve hizmet türünü doldurun.');
     return;
   }
 
-  // WhatsApp yönlendirme (Formspree kurulana kadar)
+  btn.textContent = 'Gönderiliyor...';
+  btn.disabled = true;
+
+  try {
+    await fetch('https://formspree.io/f/mkokznpl', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name, phone, service, message })
+    });
+  } catch(e) {}
+
   const text = encodeURIComponent(
     `📋 *Randevu Talebi*\n\n👤 Ad: ${name}\n📱 Tel: ${phone}\n🔧 Hizmet: ${service}\n💬 Not: ${message || '—'}`
   );
   window.open(`https://wa.me/905530930325?text=${text}`, '_blank');
+
+  btn.textContent = 'Randevu İste →';
+  btn.disabled = false;
+  form.reset();
+  note.textContent = '✅ Mesajınız iletildi!';
+  note.style.color = 'var(--purple)';
+  note.style.fontWeight = '600';
 
   const toast = document.getElementById('toast');
   toast.classList.add('show');
