@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3d2878"/>
+      <stop offset="50%" stop-color="#7c5cbf"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <filter id="sh">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#3d2878" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Arka plan dairesi -->
+  <circle cx="100" cy="100" r="96" fill="url(#g1)" filter="url(#sh)"/>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+
+  <!-- T harfi yatay -->
+  <rect x="38" y="52" width="124" height="22" rx="11" fill="white"/>
+
+  <!-- T harfi dikey -->
+  <rect x="89" y="52" width="22" height="96" rx="11" fill="white"/>
+
+  <!-- Alt accent çizgisi -->
+  <rect x="55" y="158" width="90" height="5" rx="2.5" fill="url(#g2)"/>
+
+  <!-- Sol nokta -->
+  <circle cx="46" cy="160" r="2.5" fill="#f97316"/>
+
+  <!-- Sağ nokta -->
+  <circle cx="154" cy="160" r="2.5" fill="#fbbf24"/>
+
+</svg>
