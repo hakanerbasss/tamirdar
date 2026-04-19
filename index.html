@@ -998,12 +998,19 @@ async function submitForm() {
   btn.disabled = true;
 
   try {
+    const fd = new FormData();
+    fd.append('name', name);
+    fd.append('phone', phone);
+    fd.append('service', service);
+    fd.append('message', message);
+    fd.append('_replyto', phone);
+    fd.append('_subject', '🔧 Yeni Randevu: ' + service);
     await fetch('https://formspree.io/f/mkokznpl', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ name, phone, service, message })
+      headers: { 'Accept': 'application/json' },
+      body: fd
     });
-  } catch(e) {}
+  } catch(e) { console.error('Formspree error:', e); }
 
   const text = encodeURIComponent(
     `📋 *Randevu Talebi*\n\n👤 Ad: ${name}\n📱 Tel: ${phone}\n🔧 Hizmet: ${service}\n💬 Not: ${message || '—'}`
